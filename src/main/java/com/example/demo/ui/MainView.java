@@ -2,12 +2,15 @@ package com.example.demo.ui;
 
 import com.example.demo.backend.entity.Cart;
 import com.example.demo.backend.entity.Product;
+import com.example.demo.backend.service.CartService;
 import com.example.demo.backend.service.ProductService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -16,53 +19,76 @@ import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Route(value="", layout = MainLayout.class)
 public class MainView extends VerticalLayout {
 
     private ProductService productService;
+    private CartService cartService;
     private Grid<Product> grid = new Grid<>(Product.class);
     private Grid<Cart> cartContent = new Grid<>(Cart.class);
     private TextField filterText = new TextField();
-    Label kupa = new Label("Tu bedzie div koszyczka");
-
-    private Div cart = new Div(kupa, cartContent);
+    private Div cart = new Div(cartContent);
     private Button cartButton = new Button("Cart", evt -> {cart.setVisible(true); });
+    Button thumbsUpButton = new Button(new Icon(VaadinIcon.THUMBS_UP));
 
 
-    public MainView(ProductService productService) {
+
+    public MainView(ProductService productService, CartService cartService) {
         this.productService = productService;
+        this.cartService = cartService;
         cartButton.addClassName("cart-button");
         addClassName("list-view");
         setSizeFull();
         getToolbar();
-        configureGrid();
 
-
-
-
-        add(getToolbar(), configureCart(), configureContent());
+        add(getToolbar(), configureCart(), showProducts());
         updateList();
     }
 
     public Div configureContent(){
+        configureGrid();
         Div content = new Div(grid);
         content.addClassName("content");
         content.setSizeFull();
         return content;
     }
 
+    public HorizontalLayout showProducts(){
 
-    // Change the Div to PopupContent czy jakoś tak
+        List<String> list = Arrays.asList("voucher1", "voucher2", "voucher3", "voucher4");
+
+
+
+        HorizontalLayout products = new HorizontalLayout();
+        products.setSizeFull();
+
+        for (String news : list) {
+            Div productsContainer = new Div();
+            Button addToCartButton = new Button("Add To Cart", evt -> addToCart() );
+            productsContainer.addClassName("productsContainer");
+            productsContainer.add(new Paragraph(news),addToCartButton);
+            products.add(productsContainer);
+
+        }
+
+        return products;
+
+    }
+
+
     public Div configureCart(){
+
         cart.addClassName("cart");
         cart.setVisible(false);
-
+        cartContent.setItems(cartService.findAll());
         Button close = new Button("Close", evt -> {cart.setVisible(false); });
         close.addThemeVariants(ButtonVariant.LUMO_ERROR);
         close.addClickShortcut(Key.ESCAPE);
 
         cart.add(close);
-
         return cart;
     }
 

@@ -3,11 +3,13 @@ package com.example.demo.backend.service;
 import com.example.demo.backend.entity.Cart;
 import com.example.demo.backend.entity.Product;
 import com.example.demo.backend.repository.CartRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Service
 public class CartService {
     private static final Logger LOGGER = Logger.getLogger(CartService.class.getName());
     private CartRepository cartRepository;
