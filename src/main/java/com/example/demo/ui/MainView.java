@@ -37,14 +37,20 @@ public class MainView extends VerticalLayout {
         getToolbar();
         configureGrid();
 
+
+
+
+        add(getToolbar(), configureCart(), configureContent());
+        updateList();
+    }
+
+    public Div configureContent(){
         Div content = new Div(grid);
         content.addClassName("content");
         content.setSizeFull();
-
-
-        add(getToolbar(), configureCart(), content);
-        updateList();
+        return content;
     }
+
 
     // Change the Div to PopupContent czy jakoś tak
     public Div configureCart(){
