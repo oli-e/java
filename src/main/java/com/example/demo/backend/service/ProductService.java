@@ -65,10 +65,10 @@ public class ProductService {
         if (productRepository.count() == 0){
             productRepository.saveAll(
                     Stream.of(
-                            "Jazda samochodem Tesla Model 3, 130 zł, Jazda samochodem Tesla Model 3. Cudowne 14 godzin jazdy samochodem przyszłości. Możliwość wypróbowania nieporównywalnego przyspieszenia, najnowszej technologii. Zmęczysz się? Samochód sam pojedzie. Za Ciebie. Za jedyne 130zł!, zdjecie1",
-                            "Spa , 230 zł, cudowne 14 godzin spa, zdjecie2",
-                            "Obiad w Karczmie, 170 zł, cudowne 2 godziny jedzenia, zdjecie3",
-                            "Lot Smiglowcem, 330 zł, cudowne 5 godzin lotu, zdjecie4")
+                            "Jazda samochodem Tesla Model 3, 130 zł, Jazda samochodem Tesla Model 3. Cudowne 14 godzin jazdy samochodem przyszłości. Możliwość wypróbowania nieporównywalnego przyspieszenia najnowszej technologii. Auto jedzie samo!, zdjecie1",
+                            "Spa , 230 zł,Cudowne 14 godzin spa. Masaż tylko dla Ciebie. Wszystko czego możesz chcieć aby twoje ciało osiągnęło stan świętego spokoju. Dla panów w czasie oczekiwania na drugie połówki piwo w cenie., zdjecie2",
+                            "Obiad w Karczmie, 170 zł, Obiad w Karczmie. Za jedyne 170 złotych oferujemy obiad dla 6 osób. Od kawałków kurczaka aż po całe ziemniaki. W cenie również sałatki oraz kapusta zasmażana. Trunki za dodatkową opłatą, zdjecie3",
+                            "Lot Smiglowcem, 330 zł, Lot Śmigłowcem. Za jedyne 330 złotych masz niepowtarzalną okazję wyrwać się z miejskiej dżungli. Startując z Wadowic masz okazję zwiedzić malownicze jeziora Międzybrodzia Bialskiego, zdjecie4")
                             .map(name -> {
                                 String[] split = name.split(",");
                                 Product product = new Product();

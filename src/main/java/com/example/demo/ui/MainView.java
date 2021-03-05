@@ -115,7 +115,6 @@ public class MainView extends VerticalLayout {
     }
 
 
-
     private void configureGrid() {
         grid.addClassName("product-grid");
         grid.setSizeFull();
