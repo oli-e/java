@@ -13,8 +13,6 @@ import com.vaadin.flow.component.textfield.TextField;
 @CssImport("./styles/shared-styles.css")
 public class MainLayout extends AppLayout {
 
-    private TextField filterText = new TextField();
-    private Button cartButton = new Button("Cart");
     Button thumbsUpButton = new Button(new Icon(VaadinIcon.THUMBS_UP));
 
     public MainLayout() {

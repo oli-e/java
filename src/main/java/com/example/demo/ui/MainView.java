@@ -4,13 +4,12 @@ import com.example.demo.backend.entity.Cart;
 import com.example.demo.backend.entity.Product;
 import com.example.demo.backend.service.CartService;
 import com.example.demo.backend.service.ProductService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,6 +18,7 @@ import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,9 +32,6 @@ public class MainView extends VerticalLayout {
     private TextField filterText = new TextField();
     private Div cart = new Div(cartContent);
     private Button cartButton = new Button("Cart", evt -> {cart.setVisible(true); });
-    Button thumbsUpButton = new Button(new Icon(VaadinIcon.THUMBS_UP));
-
-
 
     public MainView(ProductService productService, CartService cartService) {
         this.productService = productService;
@@ -43,6 +40,8 @@ public class MainView extends VerticalLayout {
         addClassName("list-view");
         setSizeFull();
         getToolbar();
+
+
 
         add(getToolbar(), configureCart(), showProducts());
         updateList();
@@ -56,23 +55,27 @@ public class MainView extends VerticalLayout {
         return content;
     }
 
+
     public HorizontalLayout showProducts(){
-
-        List<String> list = Arrays.asList("voucher1", "voucher2", "voucher3", "voucher4");
-
-
+        List<String> p = productService.showNames();
 
         HorizontalLayout products = new HorizontalLayout();
         products.setSizeFull();
 
-        for (String news : list) {
+        for (String news : p) {
             Div productsContainer = new Div();
+            Label l = new Label(news);
+
+            String[] names = news.split(",");
+
             Button addToCartButton = new Button("Add To Cart", evt -> addToCart() );
             productsContainer.addClassName("productsContainer");
-            productsContainer.add(new Paragraph(news),addToCartButton);
+            productsContainer.add(new Paragraph(names[0]), new Hr(), new Paragraph(names[1]), new Hr(), new Paragraph(names[2]), addToCartButton);
             products.add(productsContainer);
-
         }
+        products.setAlignItems(Alignment.CENTER);
+//        products.setDefaultVerticalComponentAlignment(
+//                FlexComponent.Alignment.CENTER);
 
         return products;
 
@@ -80,13 +83,15 @@ public class MainView extends VerticalLayout {
 
 
     public Div configureCart(){
-
         cart.addClassName("cart");
+        cart.setSizeFull();
         cart.setVisible(false);
         cartContent.setItems(cartService.findAll());
+        cartContent.setColumns("product", "amount");
         Button close = new Button("Close", evt -> {cart.setVisible(false); });
         close.addThemeVariants(ButtonVariant.LUMO_ERROR);
         close.addClickShortcut(Key.ESCAPE);
+        close.getStyle().set("margin-right", "auto");
 
         cart.add(close);
         return cart;

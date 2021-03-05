@@ -3,8 +3,11 @@ package com.example.demo.backend.service;
 import com.example.demo.backend.entity.Product;
 import com.example.demo.backend.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +36,15 @@ public class ProductService {
     }
 
 
+    public List<String> showNames() {
+        List<String> list = new ArrayList<>();
+        for (Product p: productRepository.findAll()){
+            String productString = p.getProductName() + "," + p.getProductDescription() + "," + p.getProductPrice() ;
+            list.add(productString);
+        }
+        return list;
+    }
+
     public long count() {return productRepository.count();}
 
     public void delete(Product product) {
@@ -46,6 +58,7 @@ public class ProductService {
         }
         productRepository.save(product);
     }
+
 
     @PostConstruct
     public void populateTestProductData(){
