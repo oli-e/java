@@ -1,5 +1,7 @@
 # voucher-java
 
+*w trakcie*
+
 * Spring Boot
 * H2
 * Vaadin
