@@ -31,7 +31,7 @@ public class MainView extends VerticalLayout {
     private Grid<Cart> cartContent = new Grid<>(Cart.class);
     private TextField filterText = new TextField();
     private Div cart = new Div(cartContent);
-    private Button cartButton = new Button("Cart", evt -> {cart.setVisible(true); });
+    private Button cartButton = new Button("Koszyk", evt -> {cart.setVisible(true); });
 
     public MainView(ProductService productService, CartService cartService) {
         this.productService = productService;
@@ -59,6 +59,8 @@ public class MainView extends VerticalLayout {
     public HorizontalLayout showProducts(){
         List<String> p = productService.showNames();
 
+        List<Product> k = productService.findAll();
+
         HorizontalLayout products = new HorizontalLayout();
         products.setSizeFull();
 
@@ -68,14 +70,12 @@ public class MainView extends VerticalLayout {
 
             String[] names = news.split(",");
 
-            Button addToCartButton = new Button("Add To Cart", evt -> addToCart() );
+            Button addToCartButton = new Button("Dodaj do koszyka", evt -> addToCart(names[0]) );
             productsContainer.addClassName("productsContainer");
             productsContainer.add(new Paragraph(names[0]), new Hr(), new Paragraph(names[1]), new Hr(), new Paragraph(names[2]), addToCartButton);
             products.add(productsContainer);
         }
         products.setAlignItems(Alignment.CENTER);
-//        products.setDefaultVerticalComponentAlignment(
-//                FlexComponent.Alignment.CENTER);
 
         return products;
 
@@ -98,7 +98,7 @@ public class MainView extends VerticalLayout {
     }
 
     public HorizontalLayout getToolbar() {
-        filterText.setPlaceholder("search");
+        filterText.setPlaceholder("wyszukaj");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addThemeVariants(TextFieldVariant.LUMO_ALIGN_CENTER);
@@ -125,7 +125,11 @@ public class MainView extends VerticalLayout {
         grid.setItems(productService.findAll(filterText.getValue()));
     }
 
-    private void addToCart(){
-
+    private void addToCart(String productName){
+        List<Product> product = productService.findAll(productName);
+        Cart chosenProduct = new Cart();
+        chosenProduct.setProduct(product.get(0));
+        chosenProduct.setAmount(1);
+        cartService.save(chosenProduct);
     }
 }

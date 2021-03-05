@@ -29,10 +29,10 @@ public class CartService {
     }
 
     public void save(Cart cart){
-        if (cart == null) {
-            LOGGER.log(Level.SEVERE, "Something's wrong");
-            return;
-        }
+//        if (cart == null) {
+//            LOGGER.log(Level.SEVERE, "Something's wrong");
+//            return;
+//        }
         cartRepository.save(cart);
     }
 
