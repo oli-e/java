@@ -1,5 +1,10 @@
 # voucher-java
 
+* Spring Boot
+* H2
+* Vaadin
+
+
 Sklep Voucherów:
 * można wyświetlać produkty z bazy
 * dodawać do koszyka
